@@ -4,7 +4,7 @@
 
 Unofficial minimal dockerfile for Isaac Sim.
 
-This is often useful in scenarios when you are using a custom base image and want to install Isaac Sim in it.
+This is often useful in scenarios when you are using a custom base image and want to install Isaac Sim in it. In our case, we are using a custom base image for ROS2 and installing Isaac Sim in it.
 
 Prerequisites:
 - [NVIDIA Driver](https://ubuntu.com/server/docs/nvidia-drivers-installation)
@@ -19,10 +19,12 @@ Build or pull image:
 
 ```sh
 # build the preferred version
+docker build -f Dockerfile_isaacsim_4_5_pip -t j3soon/isaac-sim-pip:4.5 .
 docker build -f Dockerfile_isaacsim_4_2_pip -t j3soon/isaac-sim-pip:4.2 .
 docker build -f Dockerfile_isaacsim_4_1_pip -t j3soon/isaac-sim-pip:4.1 .
 docker build -f Dockerfile_isaacsim_4_0_pip -t j3soon/isaac-sim-pip:4.0 .
 # or pull the preferred version
+docker pull j3soon/isaac-sim-pip:4.5
 docker pull j3soon/isaac-sim-pip:4.2
 docker pull j3soon/isaac-sim-pip:4.1
 docker pull j3soon/isaac-sim-pip:4.0
@@ -30,6 +32,7 @@ docker pull j3soon/isaac-sim-pip:4.0
 
 ```sh
 xhost +local:docker
+ISAAC_SIM_VERSION=4.2
 docker run --rm -it --runtime=nvidia --gpus all --network=host \
   -v ~/docker/isaac-sim-pip/cache/kit:/usr/local/lib/python3.10/site-packages/omni/cache:rw \
   -v ~/docker/isaac-sim-pip/cache/ov:/root/.cache/ov:rw \
@@ -44,7 +47,7 @@ docker run --rm -it --runtime=nvidia --gpus all --network=host \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v $HOME/.Xauthority:/root/.Xauthority \
   -v /dev/shm:/dev/shm \
-  j3soon/isaac-sim-pip:4.2
+  j3soon/isaac-sim-pip:${ISAAC_SIM_VERSION}
 # in the container
 # For Isaac Sim 4.0 to 4.2, run:
 isaacsim omni.isaac.sim
@@ -62,6 +65,8 @@ docker run --rm -it --network=host -v /dev/shm:/dev/shm osrf/ros:humble-desktop-
 ros2 topic list
 ros2 topic echo /clock
 ```
+
+> Please note that the ROS2 bridge is not working in Isaac Sim 4.5.0 yet. We're currently working on this issue.
 
 References:
 - [Python Environment Installation \| Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_python.html)
