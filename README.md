@@ -1,12 +1,16 @@
 # Docker Isaac Sim
 
-[<img src="https://img.shields.io/badge/dockerhub-image-important.svg?logo=docker">](https://hub.docker.com/r/j3soon/isaac-sim-pip/tags)
-
 Unofficial minimal dockerfile for Isaac Sim.
 
 This is often useful in scenarios when you are using a custom base image and want to install Isaac Sim in it. In our case, we are using a custom base image for ROS2 and installing Isaac Sim in it.
 
-Prerequisites:
+| Name | Docker Image | Docker Hub Link |
+|------|--------------|-----------------|
+| Pip | `j3soon/isaac-sim-pip` | [![Docker Image](https://img.shields.io/badge/dockerhub-image-important.svg?logo=docker)](https://hub.docker.com/r/j3soon/isaac-sim-pip/tags) |
+| Binary | `j3soon/isaac-sim-bin` | [![Docker Image](https://img.shields.io/badge/dockerhub-image-important.svg?logo=docker)](https://hub.docker.com/r/j3soon/isaac-sim-bin/tags) |
+
+## Prerequisites
+
 - [NVIDIA Driver](https://ubuntu.com/server/docs/nvidia-drivers-installation)
 - [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
@@ -72,7 +76,43 @@ References:
 - [Python Environment Installation \| Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_python.html)
 - [`isaacsim` \| PyPI](https://pypi.org/project/isaacsim/#history)
 
-> As a side note, [a binary installer](https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/install_workstation.html) is provided since Isaac Sim 4.5.0. This may also be used instead of pip install. However, I have not explored this option yet.
+## Binary Install
+
+Starting from Isaac Sim 4.5.0, the Isaac Sim binary installation is supported.
+
+Build or pull image:
+
+```sh
+# build the preferred version
+docker build -f Dockerfile_isaacsim_4_5_bin -t j3soon/isaac-sim-bin:4.5 .
+# or pull the preferred version
+docker pull j3soon/isaac-sim-bin:4.5
+```
+
+```sh
+xhost +local:docker
+ISAAC_SIM_VERSION=4.5
+docker run --rm -it --runtime=nvidia --gpus all --network=host \
+  -v ~/docker/isaac-sim-bin/cache/kit:/root/isaac-sim/kit/cache:rw \
+  -v ~/docker/isaac-sim-bin/cache/ov:/root/.cache/ov:rw \
+  -v ~/docker/isaac-sim-bin/cache/pip:/root/.cache/pip:rw \
+  -v ~/docker/isaac-sim-bin/cache/glcache:/root/.cache/nvidia/GLCache:rw \
+  -v ~/docker/isaac-sim-bin/cache/computecache:/root/.nv/ComputeCache:rw \
+  -v ~/docker/isaac-sim-bin/logs:/root/.nvidia-omniverse/logs:rw \
+  -v ~/docker/isaac-sim-bin/data:/root/.local/share/ov/data:rw \
+  -v ~/docker/isaac-sim-bin/documents:/root/Documents:rw \
+  -v $(pwd):/workspace \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v $HOME/.Xauthority:/root/.Xauthority \
+  -v /dev/shm:/dev/shm \
+  j3soon/isaac-sim-bin:${ISAAC_SIM_VERSION}
+# in the container
+~/isaacsim/isaac-sim.sh
+```
+
+References:
+- [Workstation Installation \| Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/install_workstation.html)
 
 ## Official Docker Images
 
