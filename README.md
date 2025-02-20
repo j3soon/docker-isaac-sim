@@ -55,9 +55,19 @@ docker run --rm -it --runtime=nvidia --gpus all --network=host \
 # in the container
 # For Isaac Sim 4.0 to 4.2, run:
 isaacsim omni.isaac.sim
-# # For Isaac Sim 4.5, run:
-# isaacsim isaacsim.exp.full
+# or WebRTC streaming:
+isaacsim omni.isaac.sim.headless.webrtc --no-window
 ```
+
+> For Isaac Sim 4.5, run the following instead:
+> 
+> ```sh
+> isaacsim isaacsim.exp.full
+> # or WebRTC streaming:
+> isaacsim isaacsim.exp.full.streaming --no-window
+> ```
+
+For WebRTC streaming usage, see [the official Docker images section](#official-docker-images) below.
 
 > The slight difference in cache directories between the official Docker image and the pip-installed version is observed by comparing the logs of the Isaac Sim instance in both environments.
 
@@ -109,7 +119,11 @@ docker run --rm -it --runtime=nvidia --gpus all --network=host \
   j3soon/isaac-sim-bin:${ISAAC_SIM_VERSION}
 # in the container
 ~/isaacsim/isaac-sim.sh
+# or WebRTC streaming:
+~/isaacsim/isaac-sim.streaming.sh
 ```
+
+For WebRTC streaming usage, see [the official Docker images section](#official-docker-images) below.
 
 References:
 - [Workstation Installation \| Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/install_workstation.html)
@@ -134,8 +148,29 @@ docker run --name isaac-sim --entrypoint bash -it --runtime=nvidia --gpus all -e
   -v ~/docker/isaac-sim/documents:/root/Documents:rw \
   nvcr.io/nvidia/isaac-sim:4.5.0
 # in the container
-./runheadless.sh -v
+./runheadless.sh
 ```
+
+> For using WebRTC streaming, wait until the streaming is ready, you should see something like this:
+> 
+> ```
+> Isaac Sim Full Streaming App is loaded.
+> ```
+> 
+> Download and use the [Isaac Sim WebRTC Streaming Client](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/download.html#isaac-sim-latest-release) as mentioned in [the official guide](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/manual_livestream_clients.html#isaac-sim-setup-livestream-webrtc).
+> 
+> > For WebRTC streaming in Isaac Sim 4.2 and earlier, run the following command:
+> >
+> > ```sh
+> > # in the container
+> > ./runheadless.webrtc.sh
+> > ```
+> > Wait until the streaming is ready, you should see something like this:
+> > ```
+> > Isaac Sim Headless WebRTC App is loaded.
+> > ```
+> >
+> > Visit <http://127.0.0.1:8211/streaming/webrtc-demo/?server=127.0.0.1>.
 
 GUI mode:
 
