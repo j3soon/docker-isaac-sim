@@ -171,6 +171,8 @@ docker run --name isaac-sim --entrypoint bash -it --runtime=nvidia --gpus all -e
 > > ```
 > >
 > > Visit <http://127.0.0.1:8211/streaming/webrtc-demo/?server=127.0.0.1>.
+> >
+> > Note that the URL must contain the IP address of the host machine, not the host/domain name.
 
 GUI mode:
 
