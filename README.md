@@ -15,7 +15,9 @@ This is often useful in scenarios when you are using a custom base image and wan
 - [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
-## Official Docker Images
+## Isaac Sim
+
+### Official Isaac Sim Images
 
 Before diving into the unofficial docker images, let's first see how to use the official images.
 
@@ -92,7 +94,7 @@ References:
 - [Container Installation - Isaac Sim Documentation](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_container.html)
 - [Isaac Sim \| NVIDIA NGC](https://catalog.ngc.nvidia.com/orgs/nvidia/containers/isaac-sim/tags)
 
-## Pip Install
+### Isaac Sim Image with Pip Install
 
 > Note that pip install Isaac Sim is still [in experimental stage](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_python.html). Personally, I have used this method in [j3soon/ros2-essentials](https://github.com/j3soon/ros2-essentials) and have not encountered any issues with it yet.
 
@@ -164,7 +166,7 @@ References:
 - [Python Environment Installation \| Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_python.html)
 - [`isaacsim` \| PyPI](https://pypi.org/project/isaacsim/#history)
 
-## Binary Install
+### Isaac Sim Image with Binary Install
 
 Starting from Isaac Sim 4.5.0, the Isaac Sim binary installation is supported.
 
@@ -172,8 +174,10 @@ Build or pull image:
 
 ```sh
 # build the preferred version
+docker build -f Dockerfile_isaacsim_5_0_bin -t j3soon/isaac-sim-bin:5.0 .
 docker build -f Dockerfile_isaacsim_4_5_bin -t j3soon/isaac-sim-bin:4.5 .
 # or pull the preferred version
+docker pull j3soon/isaac-sim-bin:5.0
 docker pull j3soon/isaac-sim-bin:4.5
 ```
 
@@ -206,3 +210,11 @@ For WebRTC streaming usage, see [the official Docker images section](#official-d
 References:
 
 - [Workstation Installation \| Isaac Sim](https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/install_workstation.html)
+
+## Isaac Lab
+
+See the [official guide](https://isaac-sim.github.io/IsaacLab/main/source/deployment/docker.html#running-pre-built-isaac-lab-container).
+
+## Isaac ROS
+
+See the [official guide](https://nvidia-isaac-ros.github.io/getting_started/dev_env_setup.html).

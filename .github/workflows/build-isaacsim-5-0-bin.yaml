@@ -1,0 +1,32 @@
+# Ref: https://docs.docker.com/build/ci/github-actions/
+name: Build Docker Image for Isaac Sim 5.0 (binary)
+
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - .github/workflows/build-isaacsim-5-0-bin.yaml
+      - Dockerfile_isaacsim_5_0_bin
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile_isaacsim_5_0_bin
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/isaac-sim-bin:5.0
