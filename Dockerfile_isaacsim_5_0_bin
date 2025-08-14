@@ -60,8 +60,6 @@ RUN cd ~ \
 
 # Following Isaac Sim's warning message
 ENV OMNI_KIT_ALLOW_ROOT=1
-ENV RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib/python3.10/site-packages/isaacsim/exts/omni.isaac.ros2_bridge/humble/lib
 
 # Reset entrypoint and command
 ENTRYPOINT []
