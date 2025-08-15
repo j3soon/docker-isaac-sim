@@ -175,10 +175,14 @@ Build or pull image:
 ```sh
 # build the preferred version
 docker build -f Dockerfile_isaacsim_5_0_bin -t j3soon/isaac-sim-bin:5.0 .
+docker build -f Dockerfile_isaacsim_5_0_bin_user -t j3soon/isaac-sim-bin:5.0-user .
 docker build -f Dockerfile_isaacsim_4_5_bin -t j3soon/isaac-sim-bin:4.5 .
+docker build -f Dockerfile_isaacsim_4_5_bin_user -t j3soon/isaac-sim-bin:4.5-user .
 # or pull the preferred version
 docker pull j3soon/isaac-sim-bin:5.0
+docker pull j3soon/isaac-sim-bin:5.0-user
 docker pull j3soon/isaac-sim-bin:4.5
+docker pull j3soon/isaac-sim-bin:4.5-user
 ```
 
 ```sh
