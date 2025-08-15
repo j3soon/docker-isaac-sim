@@ -102,11 +102,13 @@ Build or pull image:
 
 ```sh
 # build the preferred version
+docker build -f Dockerfile_isaacsim_5_0_pip -t j3soon/isaac-sim-pip:5.0 .
 docker build -f Dockerfile_isaacsim_4_5_pip -t j3soon/isaac-sim-pip:4.5 .
 docker build -f Dockerfile_isaacsim_4_2_pip -t j3soon/isaac-sim-pip:4.2 .
 docker build -f Dockerfile_isaacsim_4_1_pip -t j3soon/isaac-sim-pip:4.1 .
 docker build -f Dockerfile_isaacsim_4_0_pip -t j3soon/isaac-sim-pip:4.0 .
 # or pull the preferred version
+docker pull j3soon/isaac-sim-pip:5.0
 docker pull j3soon/isaac-sim-pip:4.5
 docker pull j3soon/isaac-sim-pip:4.2
 docker pull j3soon/isaac-sim-pip:4.1
