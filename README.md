@@ -189,7 +189,9 @@ docker pull j3soon/isaac-sim-bin:4.5-user
 
 ```sh
 xhost +local:docker
-ISAAC_SIM_VERSION=4.5
+ISAAC_SIM_VERSION=5.0
+# TODO: Set USER_MODE to 1 for using image with UID 1000 instead of root.
+# USER_MODE=1
 docker run --rm -it --runtime=nvidia --gpus all --network=host \
   -v ~/docker/isaac-sim-bin/cache/kit:/root/isaac-sim/kit/cache:rw \
   -v ~/docker/isaac-sim-bin/cache/ov:/root/.cache/ov:rw \
@@ -204,7 +206,7 @@ docker run --rm -it --runtime=nvidia --gpus all --network=host \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v $HOME/.Xauthority:/root/.Xauthority \
   -v /dev/shm:/dev/shm \
-  j3soon/isaac-sim-bin:${ISAAC_SIM_VERSION}
+  j3soon/isaac-sim-bin:${ISAAC_SIM_VERSION}${USER_MODE:+-user}
 # in the container
 ~/isaacsim/isaac-sim.sh
 # or WebRTC streaming:
@@ -212,6 +214,8 @@ docker run --rm -it --runtime=nvidia --gpus all --network=host \
 ```
 
 For WebRTC streaming usage, see [the official Docker images section](#official-docker-images) below.
+
+With user mode on, you should be able to run all [Isaac ROS's Isaac Sim tutorials](https://nvidia-isaac-ros.github.io/getting_started/index.html#isaac-sim-tutorials) with ease, without having to manually install Isaac Sim on your host machine.
 
 References:
 
