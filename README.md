@@ -89,6 +89,8 @@ docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" 
 ./runapp.sh
 ```
 
+> In addition, the [official dockerfiles](https://github.com/isaac-sim/IsaacSim/blob/main/tools/docker/Dockerfile) are available since Isaac Sim 5.1.0.
+
 References:
 
 - [Container Installation - Isaac Sim Documentation](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_container.html)
@@ -223,7 +225,49 @@ References:
 
 ## Isaac Lab
 
-See the [official guide](https://isaac-sim.github.io/IsaacLab/main/source/deployment/docker.html#running-pre-built-isaac-lab-container).
+For using the official Isaac Lab docker images, please follow [the official guide](https://isaac-sim.github.io/IsaacLab/main/source/deployment/docker.html#running-pre-built-isaac-lab-container), the commands should be something like below.
+
+Headless mode:
+
+```sh
+ISAAC_LAB_VERSION=2.2.0
+docker pull nvcr.io/nvidia/isaac-lab:${ISAAC_LAB_VERSION}
+docker run --name isaac-lab --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
+  -e "PRIVACY_CONSENT=Y" \
+  -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
+  -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
+  -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
+  -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
+  -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
+  -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
+  -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
+  -v ~/docker/isaac-sim/documents:/root/Documents:rw \
+  -v $(pwd):/app \
+  nvcr.io/nvidia/isaac-lab:${ISAAC_LAB_VERSION}
+```
+
+GUI mode:
+
+```sh
+ISAAC_LAB_VERSION=2.2.0
+docker pull nvcr.io/nvidia/isaac-lab:${ISAAC_LAB_VERSION}
+xhost +local:docker
+docker run --name isaac-lab --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
+  -e "PRIVACY_CONSENT=Y" \
+  -e DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v $HOME/.Xauthority:/root/.Xauthority \
+  -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
+  -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
+  -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
+  -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
+  -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
+  -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
+  -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
+  -v ~/docker/isaac-sim/documents:/root/Documents:rw \
+  -v $(pwd):/app \
+  nvcr.io/nvidia/isaac-lab:${ISAAC_LAB_VERSION}
+```
 
 ## Isaac ROS
 
