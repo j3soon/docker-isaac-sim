@@ -230,7 +230,7 @@ For using the official Isaac Lab docker images, please follow [the official guid
 Headless mode:
 
 ```sh
-ISAAC_LAB_VERSION=2.2.0
+ISAAC_LAB_VERSION=2.3.1
 docker pull nvcr.io/nvidia/isaac-lab:${ISAAC_LAB_VERSION}
 docker run --name isaac-lab --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
   -e "PRIVACY_CONSENT=Y" \
@@ -249,7 +249,7 @@ docker run --name isaac-lab --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" 
 GUI mode:
 
 ```sh
-ISAAC_LAB_VERSION=2.2.0
+ISAAC_LAB_VERSION=2.3.1
 docker pull nvcr.io/nvidia/isaac-lab:${ISAAC_LAB_VERSION}
 xhost +local:docker
 docker run --name isaac-lab --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
