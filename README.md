@@ -2,6 +2,8 @@
 
 Unofficial minimal dockerfile for Isaac Sim.
 
+> For running Isaac Sim/Lab with Singularity/Apptainer, please refer to [j3soon/singularity-isaac-sim](https://github.com/j3soon/singularity-isaac-sim) for more details.
+
 This is often useful in scenarios when you are using a custom base image and want to install Isaac Sim in it. For an example, one may want to use a custom base image for ROS2 and install Isaac Sim in it.
 
 | Name | Docker Image | Docker Hub Link |
