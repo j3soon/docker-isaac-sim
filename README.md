@@ -25,7 +25,7 @@ Before diving into the unofficial docker images, let's first see how to use the 
 
 For using the official Isaac Sim docker images, please follow [the official guide](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_container.html#container-deployment), the commands should be something like below.
 
-Headless mode (after Isaac Sim 5.0.0):
+Headless mode (after Isaac Sim 5.1.0):
 
 ```sh
 mkdir -p ~/docker/isaac-sim/cache/main/ov
@@ -53,24 +53,24 @@ docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" 
 ./runheadless.sh
 ```
 
-Headless mode (before Isaac Sim 5.0.0):
-
-```sh
-docker pull nvcr.io/nvidia/isaac-sim:5.0.0
-docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
-  -e "PRIVACY_CONSENT=Y" \
-  -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
-  -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
-  -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
-  -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
-  -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
-  -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
-  -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
-  -v ~/docker/isaac-sim/documents:/root/Documents:rw \
-  nvcr.io/nvidia/isaac-sim:5.0.0
-# in the container
-./runheadless.sh
-```
+> Headless mode (before Isaac Sim 5.0.0):
+> 
+> ```sh
+> docker pull nvcr.io/nvidia/isaac-sim:5.0.0
+> docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
+>   -e "PRIVACY_CONSENT=Y" \
+>   -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
+>   -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
+>   -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
+>   -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
+>   -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
+>   -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
+>   -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
+>   -v ~/docker/isaac-sim/documents:/root/Documents:rw \
+>   nvcr.io/nvidia/isaac-sim:5.0.0
+> # in the container
+> ./runheadless.sh
+> ```
 
 > For using WebRTC streaming, wait until the streaming is ready, you should see something like this:
 > 
@@ -95,7 +95,7 @@ docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" 
 > >
 > > Note that the URL must contain the IP address of the host machine, not the host/domain name.
 
-GUI mode (after Isaac Sim 5.0.0):
+GUI mode (after Isaac Sim 5.1.0):
 
 ```sh
 mkdir -p ~/docker/isaac-sim/cache/main/ov
@@ -128,29 +128,33 @@ docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" 
 ./runapp.sh
 ```
 
-GUI mode (before Isaac Sim 5.0.0):
+Take DGX Spark as an example (requires Isaac Sim 5.1.0):
 
-```sh
-docker pull nvcr.io/nvidia/isaac-sim:5.0.0
-xhost +local:docker
-docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
-  -e "PRIVACY_CONSENT=Y" \
-  -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
-  -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
-  -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
-  -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
-  -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
-  -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
-  -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
-  -v ~/docker/isaac-sim/documents:/root/Documents:rw \
-  -v $(pwd):/workspace \
-  -e DISPLAY=$DISPLAY \
-  -v /tmp/.X11-unix:/tmp/.X11-unix \
-  -v $HOME/.Xauthority:/root/.Xauthority \
-  nvcr.io/nvidia/isaac-sim:5.0.0
-# in the container
-./runapp.sh
-```
+![](./images/dgx-spark-isaac-sim-5-1-0-docker.png)
+
+> GUI mode (before Isaac Sim 5.0.0):
+> 
+> ```sh
+> docker pull nvcr.io/nvidia/isaac-sim:5.0.0
+> xhost +local:docker
+> docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
+>   -e "PRIVACY_CONSENT=Y" \
+>   -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
+>   -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
+>   -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
+>   -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
+>   -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
+>   -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
+>   -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
+>   -v ~/docker/isaac-sim/documents:/root/Documents:rw \
+>   -v $(pwd):/workspace \
+>   -e DISPLAY=$DISPLAY \
+>   -v /tmp/.X11-unix:/tmp/.X11-unix \
+>   -v $HOME/.Xauthority:/root/.Xauthority \
+>   nvcr.io/nvidia/isaac-sim:5.0.0
+> # in the container
+> ./runapp.sh
+> ```
 
 > In addition, the [official dockerfiles](https://github.com/isaac-sim/IsaacSim/blob/main/tools/docker/Dockerfile) are available since Isaac Sim 5.1.0.
 
