@@ -25,10 +25,38 @@ Before diving into the unofficial docker images, let's first see how to use the 
 
 For using the official Isaac Sim docker images, please follow [the official guide](https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_container.html#container-deployment), the commands should be something like below.
 
-Headless mode:
+Headless mode (after Isaac Sim 5.0.0):
 
 ```sh
-docker pull nvcr.io/nvidia/isaac-sim:4.5.0
+mkdir -p ~/docker/isaac-sim/cache/main/ov
+mkdir -p ~/docker/isaac-sim/cache/main/warp
+mkdir -p ~/docker/isaac-sim/cache/computecache
+mkdir -p ~/docker/isaac-sim/config
+mkdir -p ~/docker/isaac-sim/data/documents
+mkdir -p ~/docker/isaac-sim/data/Kit
+mkdir -p ~/docker/isaac-sim/logs
+mkdir -p ~/docker/isaac-sim/pkg
+sudo chown -R 1234:1234 ~/docker/isaac-sim
+
+docker pull nvcr.io/nvidia/isaac-sim:5.1.0
+docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
+  -e "PRIVACY_CONSENT=Y" \
+  -v ~/docker/isaac-sim/cache/main:/isaac-sim/.cache:rw \
+  -v ~/docker/isaac-sim/cache/computecache:/isaac-sim/.nv/ComputeCache:rw \
+  -v ~/docker/isaac-sim/logs:/isaac-sim/.nvidia-omniverse/logs:rw \
+  -v ~/docker/isaac-sim/config:/isaac-sim/.nvidia-omniverse/config:rw \
+  -v ~/docker/isaac-sim/data:/isaac-sim/.local/share/ov/data:rw \
+  -v ~/docker/isaac-sim/pkg:/isaac-sim/.local/share/ov/pkg:rw \
+  -u 1234:1234 \
+  nvcr.io/nvidia/isaac-sim:5.1.0
+# in the container
+./runheadless.sh
+```
+
+Headless mode (before Isaac Sim 5.0.0):
+
+```sh
+docker pull nvcr.io/nvidia/isaac-sim:5.0.0
 docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
   -e "PRIVACY_CONSENT=Y" \
   -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
@@ -39,7 +67,7 @@ docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" 
   -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
   -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
   -v ~/docker/isaac-sim/documents:/root/Documents:rw \
-  nvcr.io/nvidia/isaac-sim:4.5.0
+  nvcr.io/nvidia/isaac-sim:5.0.0
 # in the container
 ./runheadless.sh
 ```
@@ -67,10 +95,43 @@ docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" 
 > >
 > > Note that the URL must contain the IP address of the host machine, not the host/domain name.
 
-GUI mode:
+GUI mode (after Isaac Sim 5.0.0):
 
 ```sh
-docker pull nvcr.io/nvidia/isaac-sim:4.5.0
+mkdir -p ~/docker/isaac-sim/cache/main/ov
+mkdir -p ~/docker/isaac-sim/cache/main/warp
+mkdir -p ~/docker/isaac-sim/cache/computecache
+mkdir -p ~/docker/isaac-sim/config
+mkdir -p ~/docker/isaac-sim/data/documents
+mkdir -p ~/docker/isaac-sim/data/Kit
+mkdir -p ~/docker/isaac-sim/logs
+mkdir -p ~/docker/isaac-sim/pkg
+sudo chown -R 1234:1234 ~/docker/isaac-sim
+
+docker pull nvcr.io/nvidia/isaac-sim:5.1.0
+xhost +local:docker
+docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
+  -e "PRIVACY_CONSENT=Y" \
+  -v ~/docker/isaac-sim/cache/main:/isaac-sim/.cache:rw \
+  -v ~/docker/isaac-sim/cache/computecache:/isaac-sim/.nv/ComputeCache:rw \
+  -v ~/docker/isaac-sim/logs:/isaac-sim/.nvidia-omniverse/logs:rw \
+  -v ~/docker/isaac-sim/config:/isaac-sim/.nvidia-omniverse/config:rw \
+  -v ~/docker/isaac-sim/data:/isaac-sim/.local/share/ov/data:rw \
+  -v ~/docker/isaac-sim/pkg:/isaac-sim/.local/share/ov/pkg:rw \
+  -v $(pwd):/workspace \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v $HOME/.Xauthority:/root/.Xauthority \
+  -u 1234:1234 \
+  nvcr.io/nvidia/isaac-sim:5.1.0
+# in the container
+./runapp.sh
+```
+
+GUI mode (before Isaac Sim 5.0.0):
+
+```sh
+docker pull nvcr.io/nvidia/isaac-sim:5.0.0
 xhost +local:docker
 docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host \
   -e "PRIVACY_CONSENT=Y" \
@@ -86,7 +147,7 @@ docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" 
   -e DISPLAY=$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v $HOME/.Xauthority:/root/.Xauthority \
-  nvcr.io/nvidia/isaac-sim:4.5.0
+  nvcr.io/nvidia/isaac-sim:5.0.0
 # in the container
 ./runapp.sh
 ```
