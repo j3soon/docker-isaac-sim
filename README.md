@@ -156,7 +156,7 @@ Take DGX Spark as an example (requires Isaac Sim 5.1.0):
 > ./runapp.sh
 > ```
 
-> In addition, the [official dockerfiles](https://github.com/isaac-sim/IsaacSim/blob/main/tools/docker/Dockerfile) are available since Isaac Sim 5.1.0.
+> Side note: official Docker resources are also available in [`isaac-sim/IsaacSim/tools/docker`](https://github.com/isaac-sim/IsaacSim/tree/main/tools/docker) and [`isaac-sim/isaac-launchable`](https://github.com/isaac-sim/isaac-launchable).
 
 References:
 
